@@ -1,0 +1,25 @@
+<h2>{{ titulo }}</h2>
+<hr />
+<div class="row">
+  <div class="col">
+    <app-pais-input
+      (onEnter)="buscar($event)"
+      (onDebounce)="sugerencias($event)"
+      [placeholder]="placeholder"
+    ></app-pais-input>
+  </div>
+</div>
+
+<hr />
+<div *ngIf="hayError" class="alert alert-danger">
+  No se encontró nada con el término {{ termino }}
+</div>
+
+<div class="row">
+  <div class="class">
+    <app-pais-tabla
+      [hayError]="hayError"
+      [countries]="countries"
+    ></app-pais-tabla>
+  </div>
+</div>
