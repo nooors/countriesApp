@@ -15,16 +15,18 @@ export class PaisService {
     const url = `${this.API_URL}/name/${termino}`;
     return this.http.get<Country[]>(url);
   }
-  buscarContinente(termino: string): Observable<Country[]> {
-    const url = `${this.API_URL}/region/${termino}`;
-    return this.http.get<Country[]>(url);
-  }
+
   buscarCapital(termino: string): Observable<Country[]> {
     const url = `${this.API_URL}/capital/${termino}`;
     return this.http.get<Country[]>(url);
   }
   getCountryByAlpha(id: string): Observable<Country[]> {
     const url = `${this.API_URL}/alpha/${id}`;
+    return this.http.get<Country[]>(url);
+  }
+
+  getCountriesByContinent(continent: string): Observable<Country[]> {
+    const url = `${this.API_URL}/region/${continent}`;
     return this.http.get<Country[]>(url);
   }
 }

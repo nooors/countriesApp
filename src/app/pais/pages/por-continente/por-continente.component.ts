@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component } from "@angular/core";
 import { Country } from "../../interfaces/RestCountry.interface";
 import { PaisService } from "../../services/pais.service";
 
@@ -7,32 +7,31 @@ import { PaisService } from "../../services/pais.service";
   templateUrl: "./por-continente.component.html",
   styles: [],
 })
-export class PorContinenteComponent implements OnInit {
-  termino: string = "";
+export class PorContinenteComponent {
+  continents: string[] = ["africa", "americas", "asia", "europe", "oceania"];
+  continentActive: string = "";
+  countries: Country[] = [];
   hayError: boolean = false;
-  countries!: Country[];
-  titulo: string = "Por Continente";
-  placeholder: string = "Buscar por continente...";
 
   constructor(private paisSrv: PaisService) {}
 
-  buscar(event: string) {
-    this.termino = event;
+  getClassCSS(continent: string): string {
+    return this.continentActive === continent
+      ? "btn-primary"
+      : "btn-outline-primary";
+  }
+
+  activateContinent(continent: string) {
+    if (continent === this.continentActive) {
+      return;
+    }
+
     this.hayError = false;
-    this.paisSrv.buscarContinente(this.termino).subscribe(
-      (payload) => {
-        console.log(payload);
-        this.countries = payload;
-      },
-      (err) => {
-        this.hayError = true;
-      },
+    this.continentActive = continent;
+    this.countries = [];
+    this.paisSrv.getCountriesByContinent(continent).subscribe(
+      (countries) => (this.countries = countries),
+      (err) => (this.hayError = true),
     );
   }
-
-  sugerencias(event: any) {
-    this.buscar(event);
-  }
-
-  ngOnInit(): void {}
 }

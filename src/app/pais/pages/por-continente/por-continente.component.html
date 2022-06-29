@@ -1,25 +1,25 @@
-<h2>{{ titulo }}</h2>
-<hr />
-<div class="row">
-  <div class="col">
-    <app-pais-input
-      (onEnter)="buscar($event)"
-      (onDebounce)="sugerencias($event)"
-      [placeholder]="placeholder"
-    ></app-pais-input>
+<div class="animate__animated animate__fadeIn animate__faster">
+  <h3>Buscar por continente <small>{{continentActive | titlecase}}</small></h3>
+  <hr />
+  <h5>Seleccione el continente</h5>
+
+  <div class="row">
+    <div class="col">
+      <!-- [class.btn-primary]="continent === continentActive" -->
+      <!-- >>> that works-->
+      <!-- [ngClass]="{'btn-primary': continentActive === continent,
+                  'btn-outline-primary': continentActive !== continent}" -->
+      <button
+        *ngFor="let continent of continents"
+        class="btn btn-outline-primary mr-1 mb-1"
+        [class]="getClassCSS(continent)"
+        (click)="activateContinent(continent)"
+      >
+        {{ continent | titlecase }}
+      </button>
+    </div>
   </div>
 </div>
 
-<hr />
-<div *ngIf="hayError" class="alert alert-danger">
-  No se encontró nada con el término {{ termino }}
-</div>
-
-<div class="row">
-  <div class="class">
-    <app-pais-tabla
-      [hayError]="hayError"
-      [countries]="countries"
-    ></app-pais-tabla>
-  </div>
-</div>
+<ng-template *ngIf="hayError"></ng-template>
+<app-pais-tabla [countries]="countries" [hayError]="hayError"></app-pais-tabla>
